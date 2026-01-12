@@ -26,9 +26,9 @@ let package = Package(
         .library(name: .rfc3596, targets: [.rfc3596])
     ],
     dependencies: [
-        .package(path: "../swift-rfc-1035"),
-        .package(path: "../swift-rfc-4291"),
-        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
+        .package(url: "https://github.com/swift-standards/swift-rfc-1035.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-standards/swift-rfc-4291.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", from: "0.0.1"),
     ],
     targets: [
         .target(

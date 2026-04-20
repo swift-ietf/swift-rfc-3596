@@ -18,29 +18,29 @@ struct RFC3596Tests {
 
     @Suite("Record Type Tests")
     struct RecordTypeTests {
-        @Test("Record type is 28")
-        func recordTypeValue() {
+        @Test
+        func `Record type is 28`() {
             #expect(RFC_3596.recordType == 28)
         }
 
-        @Test("Record type name is AAAA")
-        func recordTypeName() {
+        @Test
+        func `Record type name is AAAA`() {
             #expect(RFC_3596.recordTypeName == "AAAA")
         }
     }
 
     @Suite("AAAA Record Tests")
     struct AAAARecordTests {
-        @Test("Create from IPv6 address")
-        func createFromAddress() {
+        @Test
+        func `Create from IPv6 address`() {
             let address = RFC_4291.IPv6.Address(0x2001, 0xdb8, 0, 0, 0, 0, 0, 1)
             let record = RFC_3596.AAAA(address: address)
 
             #expect(record.address == address)
         }
 
-        @Test("Serialize to 16 bytes")
-        func serializeTo16Bytes() {
+        @Test
+        func `Serialize to 16 bytes`() {
             let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
             let record = RFC_3596.AAAA(address: address)
 
@@ -58,8 +58,8 @@ struct RFC3596Tests {
             #expect(buffer[15] == 0x01)
         }
 
-        @Test("Parse from 16 bytes")
-        func parseFrom16Bytes() throws {
+        @Test
+        func `Parse from 16 bytes`() throws {
             let bytes: [UInt8] = [
                 0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00,
                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
@@ -72,8 +72,8 @@ struct RFC3596Tests {
             #expect(record.address.segments.7 == 0x0001)
         }
 
-        @Test("Reject invalid length")
-        func rejectInvalidLength() {
+        @Test
+        func `Reject invalid length`() {
             let shortBytes: [UInt8] = [0x20, 0x01, 0x0d, 0xb8]
 
             #expect(throws: RFC_3596.AAAA.Error.self) {
@@ -81,8 +81,8 @@ struct RFC3596Tests {
             }
         }
 
-        @Test("Serialization round-trip")
-        func serializationRoundTrip() throws {
+        @Test
+        func `Serialization round-trip`() throws {
             let original = RFC_3596.AAAA(
                 address: RFC_4291.IPv6.Address(0xfe80, 0, 0, 0, 0, 0, 0, 1)
             )
@@ -95,8 +95,8 @@ struct RFC3596Tests {
             #expect(parsed.address == original.address)
         }
 
-        @Test("Description is IPv6 address string")
-        func descriptionIsAddressString() throws {
+        @Test
+        func `Description is IPv6 address string`() throws {
             let record = RFC_3596.AAAA(
                 address: try RFC_4291.IPv6.Address("2001:db8::1")
             )
@@ -107,8 +107,8 @@ struct RFC3596Tests {
 
     @Suite("IP6.ARPA Tests")
     struct IP6ARPATests {
-        @Test("Generate reverse DNS domain")
-        func generateReverseDomain() {
+        @Test
+        func `Generate reverse DNS domain`() {
             // 2001:db8::1
             let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
             let domain = RFC_3596.IP6.ARPA.domain(for: address)
@@ -118,8 +118,8 @@ struct RFC3596Tests {
             #expect(domain == expected)
         }
 
-        @Test("Loopback reverse DNS")
-        func loopbackReverseDNS() {
+        @Test
+        func `Loopback reverse DNS`() {
             let domain = RFC_3596.IP6.ARPA.domain(for: .loopback)
 
             // ::1 = all zeros except last nibble is 1
@@ -127,8 +127,8 @@ struct RFC3596Tests {
             #expect(domain == expected)
         }
 
-        @Test("Suffix is ip6.arpa")
-        func suffixValue() {
+        @Test
+        func `Suffix is ip6.arpa`() {
             #expect(RFC_3596.IP6.ARPA.suffix == "ip6.arpa")
         }
     }

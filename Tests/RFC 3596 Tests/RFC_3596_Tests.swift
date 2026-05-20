@@ -44,7 +44,7 @@ struct RFC3596Tests {
             let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
             let record = RFC_3596.AAAA(address: address)
 
-            var buffer: [UInt8] = []
+            var buffer: [Byte] = []
             RFC_3596.AAAA.serialize(record, into: &buffer)
 
             #expect(buffer.count == 16)
@@ -60,7 +60,7 @@ struct RFC3596Tests {
 
         @Test
         func `Parse from 16 bytes`() throws {
-            let bytes: [UInt8] = [
+            let bytes: [Byte] = [
                 0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00,
                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
             ]
@@ -74,7 +74,7 @@ struct RFC3596Tests {
 
         @Test
         func `Reject invalid length`() {
-            let shortBytes: [UInt8] = [0x20, 0x01, 0x0d, 0xb8]
+            let shortBytes: [Byte] = [0x20, 0x01, 0x0d, 0xb8]
 
             #expect(throws: RFC_3596.AAAA.Error.self) {
                 try RFC_3596.AAAA(binary: shortBytes)
@@ -87,7 +87,7 @@ struct RFC3596Tests {
                 address: RFC_4291.IPv6.Address(0xfe80, 0, 0, 0, 0, 0, 0, 1)
             )
 
-            var buffer: [UInt8] = []
+            var buffer: [Byte] = []
             RFC_3596.AAAA.serialize(original, into: &buffer)
 
             let parsed = try RFC_3596.AAAA(binary: buffer)

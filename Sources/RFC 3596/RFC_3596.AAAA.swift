@@ -67,7 +67,7 @@ extension RFC_3596.AAAA: Binary.Serializable {
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ record: Self,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         // Delegate to RFC 4291 binary serialization (16 bytes, network order)
         RFC_4291.IPv6.Address.serialize(record.address, into: &buffer)
     }
@@ -77,7 +77,7 @@ extension RFC_3596.AAAA: Binary.Serializable {
     /// - Parameter bytes: Exactly 16 bytes in network byte order
     /// - Throws: `Error.invalidLength` if not exactly 16 bytes
     public init<Bytes: Collection>(binary bytes: Bytes) throws(Error)
-    where Bytes.Element == UInt8 {
+    where Bytes.Element == Byte {
         guard bytes.count == 16 else {
             throw Error.invalidLength(bytes.count)
         }

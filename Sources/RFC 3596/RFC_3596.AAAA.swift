@@ -16,6 +16,15 @@
 // RFC 3596 Section 2.1: AAAA Record Format
 
 public import RFC_4291
+// RFC 4291 deliberately withholds `description`/`Codable`/`RawRepresentable`
+// for `RFC_4291.IPv6.Address` (its own [FAM-012] doc: RFC 4291 owns the value,
+// wire form, and §2.2 text *grammar*; the RFC 5952 canonical text
+// *serialization* — and the `description`/`Codable`/`rawValue` surface built
+// on it — is a *retroactive* conformance owned by swift-rfc-5952). Import it
+// here so `address.description` (below) and this file's synthesized
+// `Codable` resolve; not `public` — RFC 5952 supplies conformances only, no
+// new public API surface for this module.
+import RFC_5952
 
 extension RFC_3596 {
     /// AAAA Resource Record for IPv6 addresses

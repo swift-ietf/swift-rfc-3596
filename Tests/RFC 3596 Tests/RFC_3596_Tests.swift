@@ -98,7 +98,7 @@ struct RFC3596Tests {
         @Test
         func `Description is IPv6 address string`() throws {
             let record = RFC_3596.AAAA(
-                address: try RFC_4291.IPv6.Address("2001:db8::1")
+                address: try RFC_4291.IPv6.Address(ascii: Array("2001:db8::1".utf8))
             )
 
             #expect(record.description == "2001:db8::1")

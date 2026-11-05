@@ -15,15 +15,10 @@
 //
 // RFC 3596 Section 2.1: AAAA Record Format
 
+public import Binary
+public import Byte
+import ASCII
 public import RFC_4291
-// RFC 4291 deliberately withholds `description`/`Codable`/`RawRepresentable`
-// for `RFC_4291.IPv6.Address` (its own [FAM-012] doc: RFC 4291 owns the value,
-// wire form, and §2.2 text *grammar*; the RFC 5952 canonical text
-// *serialization* — and the `description`/`Codable`/`rawValue` surface built
-// on it — is a *retroactive* conformance owned by swift-rfc-5952). Import it
-// here so `address.description` (below) and this file's synthesized
-// `Codable` resolve; not `public` — RFC 5952 supplies conformances only, no
-// new public API surface for this module.
 import RFC_5952
 
 extension RFC_3596 {
@@ -45,12 +40,12 @@ extension RFC_3596 {
     /// let record = RFC_3596.AAAA(address: address)
     ///
     /// // Serialize to bytes
-    /// var buffer: [UInt8] = []
+    /// var buffer: [Byte] = []
     /// RFC_3596.AAAA.serialize(record, into: &buffer)
     /// // buffer = [0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00,
     /// //           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01]
     /// ```
-    public struct AAAA: Sendable, Hashable, Codable {
+    public struct AAAA: Sendable, Hashable {
         /// The IPv6 address
         public let address: RFC_4291.IPv6.Address
 
@@ -85,12 +80,12 @@ extension RFC_3596.AAAA: Binary.Serializable {
     ///
     /// - Parameter bytes: Exactly 16 bytes in network byte order
     /// - Throws: `Error.invalidLength` if not exactly 16 bytes
-    public init<Bytes: Collection>(binary bytes: Bytes) throws(Error)
+    public init<Bytes: Swift::Collection>(binary bytes: Bytes) throws(Error)
     where Bytes.Element == Byte {
         guard bytes.count == 16 else {
             throw Error.invalidLength(bytes.count)
         }
-        do {
+        do throws(RFC_4291.IPv6.Address.Error) {
             let address = try RFC_4291.IPv6.Address(binary: bytes)
             self.init(address: address)
         } catch {
@@ -103,6 +98,8 @@ extension RFC_3596.AAAA: Binary.Serializable {
 
 extension RFC_3596.AAAA: CustomStringConvertible {
     public var description: String {
-        address.description
+        var codes: [ASCII.Code] = []
+        RFC_4291.IPv6.Address.Text.Canonical().serialize(address, into: &codes)
+        return String(decoding: codes.lazy.map(\.underlying), as: UTF8.self)
     }
 }

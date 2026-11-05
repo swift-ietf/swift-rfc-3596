@@ -10,6 +10,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+import Byte
 import Testing
 @testable import RFC_3596
 
@@ -49,20 +50,20 @@ struct RFC3596Tests {
 
             #expect(buffer.count == 16)
             // First segment: 0x2001
-            #expect(buffer[0] == 0x20)
-            #expect(buffer[1] == 0x01)
+            #expect(buffer[0] == Byte(0x20))
+            #expect(buffer[1] == Byte(0x01))
             // Second segment: 0x0db8
-            #expect(buffer[2] == 0x0d)
-            #expect(buffer[3] == 0xb8)
+            #expect(buffer[2] == Byte(0x0d))
+            #expect(buffer[3] == Byte(0xb8))
             // Last byte: 0x01
-            #expect(buffer[15] == 0x01)
+            #expect(buffer[15] == Byte(0x01))
         }
 
         @Test
         func `Parse from 16 bytes`() throws {
             let bytes: [Byte] = [
-                0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+                Byte(0x20), Byte(0x01), Byte(0x0d), Byte(0xb8), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00),
+                Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x01),
             ]
 
             let record = try RFC_3596.AAAA(binary: bytes)
@@ -74,7 +75,7 @@ struct RFC3596Tests {
 
         @Test
         func `Reject invalid length`() {
-            let shortBytes: [Byte] = [0x20, 0x01, 0x0d, 0xb8]
+            let shortBytes: [Byte] = [Byte(0x20), Byte(0x01), Byte(0x0d), Byte(0xb8)]
 
             #expect(throws: RFC_3596.AAAA.Error.self) {
                 try RFC_3596.AAAA(binary: shortBytes)
@@ -98,7 +99,7 @@ struct RFC3596Tests {
         @Test
         func `Description is IPv6 address string`() throws {
             let record = RFC_3596.AAAA(
-                address: try RFC_4291.IPv6.Address(ascii: Array("2001:db8::1".utf8))
+                address: try RFC_4291.IPv6.Address(ascii: [Byte](utf8: "2001:db8::1"))
             )
 
             #expect(record.description == "2001:db8::1")

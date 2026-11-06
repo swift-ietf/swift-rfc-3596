@@ -15,7 +15,7 @@
 //
 // RFC 3596 Section 2.5: IP6.ARPA Domain
 
-public import RFC_1035
+import RFC_1035
 public import RFC_4291
 
 extension RFC_3596 {

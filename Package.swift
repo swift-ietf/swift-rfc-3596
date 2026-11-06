@@ -40,7 +40,7 @@ let package = Package(
             name: "RFC 3596 Tests",
             dependencies: [
                 .product(name: "Byte", package: "swift-byte"),
-                "RFC 3596",
+                .target(name: "RFC 3596"),
             ]
         ),
     ],

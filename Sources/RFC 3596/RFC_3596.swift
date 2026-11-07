@@ -1,24 +1,3 @@
-// ===----------------------------------------------------------------------===//
-//
-// Copyright (c) 2025 Coen ten Thije Boonkkamp
-// Licensed under Apache License v2.0
-//
-// See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of project contributors
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-// ===----------------------------------------------------------------------===//
-
-// RFC_3596.swift
-// swift-rfc-3596
-//
-// RFC 3596: DNS Extensions to Support IP Version 6 (October 2003)
-// https://www.rfc-editor.org/rfc/rfc3596.html
-//
-// This package implements DNS support for IPv6 addresses as defined by RFC 3596.
-// It defines the AAAA resource record type for storing IPv6 addresses.
-
 /// RFC 3596: DNS Extensions to Support IP Version 6
 ///
 /// This namespace contains types for DNS support of IPv6 addresses

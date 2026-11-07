@@ -1,20 +1,3 @@
-// ===----------------------------------------------------------------------===//
-//
-// Copyright (c) 2025 Coen ten Thije Boonkkamp
-// Licensed under Apache License v2.0
-//
-// See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of project contributors
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-// ===----------------------------------------------------------------------===//
-
-// RFC_3596.IP6.ARPA.swift
-// swift-rfc-3596
-//
-// RFC 3596 Section 2.5: IP6.ARPA Domain
-
 import RFC_1035
 public import RFC_4291
 
@@ -61,7 +44,6 @@ extension RFC_3596.IP6.ARPA {
             address.segments.6, address.segments.7,
         ]
 
-        // Build nibbles in reverse order
         var nibbles: [Character] = []
         nibbles.reserveCapacity(32)
 
@@ -73,7 +55,6 @@ extension RFC_3596.IP6.ARPA {
             }
         }
 
-        // Join with dots and append ip6.arpa
         return nibbles.map(String.init).joined(separator: ".") + "." + suffix
     }
 }

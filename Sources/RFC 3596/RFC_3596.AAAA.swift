@@ -1,20 +1,3 @@
-// ===----------------------------------------------------------------------===//
-//
-// Copyright (c) 2025 Coen ten Thije Boonkkamp
-// Licensed under Apache License v2.0
-//
-// See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of project contributors
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-// ===----------------------------------------------------------------------===//
-
-// RFC_3596.AAAA.swift
-// swift-rfc-3596
-//
-// RFC 3596 Section 2.1: AAAA Record Format
-
 public import Binary
 public import Byte
 import ASCII
@@ -58,8 +41,6 @@ extension RFC_3596 {
     }
 }
 
-// MARK: - Binary.Serializable
-
 extension RFC_3596.AAAA: Binary.Serializable {
     /// Serializes the AAAA record to wire format
     ///
@@ -72,7 +53,6 @@ extension RFC_3596.AAAA: Binary.Serializable {
         _ record: Self,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
-        // Delegate to RFC 4291 binary serialization (16 bytes, network order)
         RFC_4291.IPv6.Address.serialize(record.address, into: &buffer)
     }
 
@@ -93,8 +73,6 @@ extension RFC_3596.AAAA: Binary.Serializable {
         }
     }
 }
-
-// MARK: - CustomStringConvertible
 
 extension RFC_3596.AAAA: CustomStringConvertible {
     public var description: String {

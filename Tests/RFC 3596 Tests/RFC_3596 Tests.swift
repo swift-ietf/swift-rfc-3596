@@ -14,11 +14,11 @@ import Byte
 import Testing
 @testable import RFC_3596
 
-@Suite("RFC 3596 DNS AAAA Record Tests")
-struct RFC3596Tests {
+@Suite
+struct `RFC 3596 DNS AAAA Record Tests` {
 
-    @Suite("Record Type Tests")
-    struct RecordTypeTests {
+    @Suite
+    struct `Record Type Tests` {
         @Test
         func `Record type is 28`() {
             #expect(RFC_3596.recordType == 28)
@@ -30,8 +30,8 @@ struct RFC3596Tests {
         }
     }
 
-    @Suite("AAAA Record Tests")
-    struct AAAARecordTests {
+    @Suite
+    struct `AAAA Record Tests` {
         @Test
         func `Create from IPv6 address`() {
             let address = RFC_4291.IPv6.Address(0x2001, 0xdb8, 0, 0, 0, 0, 0, 1)

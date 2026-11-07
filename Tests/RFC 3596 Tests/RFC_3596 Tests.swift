@@ -14,9 +14,43 @@ import Byte
 import Testing
 @testable import RFC_3596
 
-@Suite
-struct `RFC 3596 DNS AAAA Record Tests` {
+enum `RFC_3596 Tests` {}
 
+extension `RFC_3596 Tests` {
+    @Suite
+    struct `RFC 3596 DNS AAAA Record Tests` {
+
+        @Suite("IP6.ARPA Tests")
+        struct IP6ARPATests {
+            @Test
+            func `Generate reverse DNS domain`() {
+                // 2001:db8::1
+                let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
+                let domain = RFC_3596.IP6.ARPA.domain(for: address)
+
+                // Expected: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa
+                let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa"
+                #expect(domain == expected)
+            }
+
+            @Test
+            func `Loopback reverse DNS`() {
+                let domain = RFC_3596.IP6.ARPA.domain(for: .loopback)
+
+                // ::1 = all zeros except last nibble is 1
+                let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa"
+                #expect(domain == expected)
+            }
+
+            @Test
+            func `Suffix is ip6.arpa`() {
+                #expect(RFC_3596.IP6.ARPA.suffix == "ip6.arpa")
+            }
+        }
+    }
+}
+
+extension `RFC_3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
     @Suite
     struct `Record Type Tests` {
         @Test
@@ -103,34 +137,6 @@ struct `RFC 3596 DNS AAAA Record Tests` {
             )
 
             #expect(record.description == "2001:db8::1")
-        }
-    }
-
-    @Suite("IP6.ARPA Tests")
-    struct IP6ARPATests {
-        @Test
-        func `Generate reverse DNS domain`() {
-            // 2001:db8::1
-            let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
-            let domain = RFC_3596.IP6.ARPA.domain(for: address)
-
-            // Expected: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa
-            let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa"
-            #expect(domain == expected)
-        }
-
-        @Test
-        func `Loopback reverse DNS`() {
-            let domain = RFC_3596.IP6.ARPA.domain(for: .loopback)
-
-            // ::1 = all zeros except last nibble is 1
-            let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa"
-            #expect(domain == expected)
-        }
-
-        @Test
-        func `Suffix is ip6.arpa`() {
-            #expect(RFC_3596.IP6.ARPA.suffix == "ip6.arpa")
         }
     }
 }

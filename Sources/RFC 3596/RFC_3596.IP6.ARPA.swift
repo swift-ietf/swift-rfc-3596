@@ -10,7 +10,6 @@ extension RFC_3596 {
     /// The format uses nibbles (4-bit values) in reverse order, separated
     /// by dots, followed by "ip6.arpa".
     public enum IP6 {
-        public enum ARPA {}
     }
 }
 
@@ -58,3 +57,6 @@ extension RFC_3596.IP6.ARPA {
         return nibbles.map(String.init).joined(separator: ".") + "." + suffix
     }
 }
+
+extension RFC_3596.IP6 {
+        public enum ARPA {}}

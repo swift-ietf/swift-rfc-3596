@@ -20,7 +20,7 @@ extension `RFC_3596 Tests` {
     @Suite
     struct `RFC 3596 DNS AAAA Record Tests` {
 
-        @Suite("IP6.ARPA Tests")
+        @Suite
         struct IP6ARPATests {
             @Test
             func `Generate reverse DNS domain`() {

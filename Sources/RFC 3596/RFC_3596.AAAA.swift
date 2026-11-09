@@ -1,6 +1,6 @@
+import ASCII
 public import Binary
 public import Byte
-import ASCII
 public import RFC_4291
 import RFC_5952
 

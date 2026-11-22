@@ -14,9 +14,9 @@ import Byte
 import Testing
 @testable import RFC_3596
 
-enum `RFC_3596 Tests` {}
+enum `IETF.RFC.3596 Tests` {}
 
-extension `RFC_3596 Tests` {
+extension `IETF.RFC.3596 Tests` {
     @Suite
     struct `RFC 3596 DNS AAAA Record Tests` {
 
@@ -25,8 +25,8 @@ extension `RFC_3596 Tests` {
             @Test
             func `Generate reverse DNS domain`() {
                 // 2001:db8::1
-                let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
-                let domain = RFC_3596.IP6.ARPA.domain(for: address)
+                let address = IETF.RFC.`4291`.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
+                let domain = IETF.RFC.`3596`.IP6.ARPA.domain(for: address)
 
                 // Expected: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa
                 let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa"
@@ -35,7 +35,7 @@ extension `RFC_3596 Tests` {
 
             @Test
             func `Loopback reverse DNS`() {
-                let domain = RFC_3596.IP6.ARPA.domain(for: .loopback)
+                let domain = IETF.RFC.`3596`.IP6.ARPA.domain(for: .loopback)
 
                 // ::1 = all zeros except last nibble is 1
                 let expected = "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa"
@@ -44,23 +44,23 @@ extension `RFC_3596 Tests` {
 
             @Test
             func `Suffix is ip6.arpa`() {
-                #expect(RFC_3596.IP6.ARPA.suffix == "ip6.arpa")
+                #expect(IETF.RFC.`3596`.IP6.ARPA.suffix == "ip6.arpa")
             }
         }
     }
 }
 
-extension `RFC_3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
+extension `IETF.RFC.3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
     @Suite
     struct `Record Type Tests` {
         @Test
         func `Record type is 28`() {
-            #expect(RFC_3596.recordType == 28)
+            #expect(IETF.RFC.`3596`.recordType == 28)
         }
 
         @Test
         func `Record type name is AAAA`() {
-            #expect(RFC_3596.recordTypeName == "AAAA")
+            #expect(IETF.RFC.`3596`.recordTypeName == "AAAA")
         }
     }
 
@@ -68,19 +68,19 @@ extension `RFC_3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
     struct `AAAA Record Tests` {
         @Test
         func `Create from IPv6 address`() {
-            let address = RFC_4291.IPv6.Address(0x2001, 0xdb8, 0, 0, 0, 0, 0, 1)
-            let record = RFC_3596.AAAA(address: address)
+            let address = IETF.RFC.`4291`.IPv6.Address(0x2001, 0xdb8, 0, 0, 0, 0, 0, 1)
+            let record = IETF.RFC.`3596`.AAAA(address: address)
 
             #expect(record.address == address)
         }
 
         @Test
         func `Serialize to 16 bytes`() {
-            let address = RFC_4291.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
-            let record = RFC_3596.AAAA(address: address)
+            let address = IETF.RFC.`4291`.IPv6.Address(0x2001, 0x0db8, 0, 0, 0, 0, 0, 1)
+            let record = IETF.RFC.`3596`.AAAA(address: address)
 
             var buffer: [Byte] = []
-            RFC_3596.AAAA.serialize(record, into: &buffer)
+            IETF.RFC.`3596`.AAAA.serialize(record, into: &buffer)
 
             #expect(buffer.count == 16)
             // First segment: 0x2001
@@ -100,7 +100,7 @@ extension `RFC_3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
                 Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x00), Byte(0x01),
             ]
 
-            let record = try RFC_3596.AAAA(binary: bytes)
+            let record = try IETF.RFC.`3596`.AAAA(binary: bytes)
 
             #expect(record.address.segments.0 == 0x2001)
             #expect(record.address.segments.1 == 0x0db8)
@@ -111,29 +111,29 @@ extension `RFC_3596 Tests`.`RFC 3596 DNS AAAA Record Tests` {
         func `Reject invalid length`() {
             let shortBytes: [Byte] = [Byte(0x20), Byte(0x01), Byte(0x0d), Byte(0xb8)]
 
-            #expect(throws: RFC_3596.AAAA.Error.self) {
-                try RFC_3596.AAAA(binary: shortBytes)
+            #expect(throws: IETF.RFC.`3596`.AAAA.Error.self) {
+                try IETF.RFC.`3596`.AAAA(binary: shortBytes)
             }
         }
 
         @Test
         func `Serialization round-trip`() throws {
-            let original = RFC_3596.AAAA(
-                address: RFC_4291.IPv6.Address(0xfe80, 0, 0, 0, 0, 0, 0, 1)
+            let original = IETF.RFC.`3596`.AAAA(
+                address: IETF.RFC.`4291`.IPv6.Address(0xfe80, 0, 0, 0, 0, 0, 0, 1)
             )
 
             var buffer: [Byte] = []
-            RFC_3596.AAAA.serialize(original, into: &buffer)
+            IETF.RFC.`3596`.AAAA.serialize(original, into: &buffer)
 
-            let parsed = try RFC_3596.AAAA(binary: buffer)
+            let parsed = try IETF.RFC.`3596`.AAAA(binary: buffer)
 
             #expect(parsed.address == original.address)
         }
 
         @Test
         func `Description is IPv6 address string`() throws {
-            let record = RFC_3596.AAAA(
-                address: try RFC_4291.IPv6.Address(ascii: [Byte](utf8: "2001:db8::1"))
+            let record = IETF.RFC.`3596`.AAAA(
+                address: try IETF.RFC.`4291`.IPv6.Address(ascii: [Byte](utf8: "2001:db8::1"))
             )
 
             #expect(record.description == "2001:db8::1")

@@ -4,7 +4,7 @@ public import Byte
 public import RFC_4291
 import RFC_5952
 
-extension RFC_3596 {
+extension IETF.RFC.`3596` {
     /// AAAA Resource Record for IPv6 addresses
     ///
     /// Per RFC 3596 Section 2.1, the AAAA resource record stores a single
@@ -30,18 +30,18 @@ extension RFC_3596 {
     /// ```
     public struct AAAA: Sendable, Hashable {
         /// The IPv6 address
-        public let address: RFC_4291.IPv6.Address
+        public let address: IETF.RFC.`4291`.IPv6.Address
 
         /// Creates an AAAA record from an IPv6 address
         ///
         /// - Parameter address: The IPv6 address to store
-        public init(address: RFC_4291.IPv6.Address) {
+        public init(address: IETF.RFC.`4291`.IPv6.Address) {
             self.address = address
         }
     }
 }
 
-extension RFC_3596.AAAA: Binary.Serializable {
+extension IETF.RFC.`3596`.AAAA: Binary.Serializable {
     /// Serializes the AAAA record to wire format
     ///
     /// The IPv6 address is written as 16 octets in network byte order.
@@ -53,7 +53,7 @@ extension RFC_3596.AAAA: Binary.Serializable {
         _ record: Self,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
-        RFC_4291.IPv6.Address.serialize(record.address, into: &buffer)
+        IETF.RFC.`4291`.IPv6.Address.serialize(record.address, into: &buffer)
     }
 
     /// Parses an AAAA record from wire format bytes
@@ -65,8 +65,8 @@ extension RFC_3596.AAAA: Binary.Serializable {
         guard bytes.count == 16 else {
             throw Error.invalidLength(bytes.count)
         }
-        do throws(RFC_4291.IPv6.Address.Error) {
-            let address = try RFC_4291.IPv6.Address(binary: bytes)
+        do throws(IETF.RFC.`4291`.IPv6.Address.Error) {
+            let address = try IETF.RFC.`4291`.IPv6.Address(binary: bytes)
             self.init(address: address)
         } catch {
             throw Error.invalidAddress(error)
@@ -74,10 +74,10 @@ extension RFC_3596.AAAA: Binary.Serializable {
     }
 }
 
-extension RFC_3596.AAAA: CustomStringConvertible {
+extension IETF.RFC.`3596`.AAAA: CustomStringConvertible {
     public var description: String {
         var codes: [ASCII.Code] = []
-        RFC_4291.IPv6.Address.Text.Canonical().serialize(address, into: &codes)
+        IETF.RFC.`4291`.IPv6.Address.Text.Canonical().serialize(address, into: &codes)
         return String(decoding: codes.lazy.map(\.underlying), as: UTF8.self)
     }
 }

@@ -1,3 +1,4 @@
+public import IETF_RFC
 /// RFC 3596: DNS Extensions to Support IP Version 6
 ///
 /// This namespace contains types for DNS support of IPv6 addresses
@@ -29,9 +30,11 @@
 /// - [RFC 3596](https://www.rfc-editor.org/rfc/rfc3596)
 /// - ``RFC_4291`` for IPv6 address format
 /// - ``RFC_1035`` for DNS message format
-public enum RFC_3596 {}
+extension IETF.RFC {
+    public enum `3596` {}
+}
 
-extension RFC_3596 {
+extension IETF.RFC.`3596` {
     /// DNS record type value for AAAA records
     ///
     /// Per RFC 3596 Section 2.1, the AAAA resource record type is 28.

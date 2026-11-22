@@ -1,7 +1,7 @@
 import RFC_1035
 public import RFC_4291
 
-extension RFC_3596 {
+extension IETF.RFC.`3596` {
     /// IP6.ARPA domain namespace
     ///
     /// Per RFC 3596 Section 2.5, the IP6.ARPA domain is used for
@@ -14,7 +14,7 @@ extension RFC_3596 {
     }
 }
 
-extension RFC_3596.IP6.ARPA {
+extension IETF.RFC.`3596`.IP6.ARPA {
     /// The suffix for IPv6 reverse DNS names
     public static let suffix = "ip6.arpa"
 
@@ -36,7 +36,7 @@ extension RFC_3596.IP6.ARPA {
     ///
     /// - Parameter address: The IPv6 address
     /// - Returns: The reverse DNS domain name as a String
-    public static func domain(for address: RFC_4291.IPv6.Address) -> String {
+    public static func domain(for address: IETF.RFC.`4291`.IPv6.Address) -> String {
         let segments = [
             address.segments.0, address.segments.1,
             address.segments.2, address.segments.3,

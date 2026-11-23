@@ -1,4 +1,5 @@
 public import IETF_RFC
+
 /// RFC 3596: DNS Extensions to Support IP Version 6
 ///
 /// This namespace contains types for DNS support of IPv6 addresses
